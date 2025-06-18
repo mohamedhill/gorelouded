@@ -1,0 +1,5 @@
+package gorelouded
+
+
+func cleanstr(){
+}
