@@ -1,19 +1,15 @@
-package gorelouded
+package goreloaded
+
+import "strings"
 
 func Capitalize(s string) string {
-	sliceS := []rune(s)
-	
-	for i := 0; i < len(sliceS); i++ {
-		if sliceS[i] <= 'Z' && sliceS[i] >= 'A' {
-			sliceS[i] += 32
+	capit := ""
+	for i := 0; i < len(s); i++ {
+		if i == 0 {
+			capit += strings.ToUpper(string(s[i]))
+		} else {
+			capit += strings.ToLower(string(s[i]))
 		}
 	}
-	for i := 0; i < len(sliceS); i++ {
-		if sliceS[i] <= 'z' && sliceS[i] >= 'a' {
-			sliceS[i] -= 32
-		
-	}
-	
-}
-return string(sliceS)
+	return capit
 }
