@@ -84,6 +84,15 @@ func main() {
 			zrox[i+1] = ""
 			zrox = goreloaded.Cleanslice(zrox)
 		}
+		for l := 0 ; l< len(zrox[i]);l++{
+			if zrox[i][l]== '.' || zrox[i][l]==','||zrox[i][l]== '!' || zrox[i][l]=='?'||zrox[i][l] == ':'||zrox[i][l]==';'{
+             zrox[i-1] += string(zrox[i][l])
+			 zrox[i] = zrox[i][1:]
+			  
+
+
+			}
+		} 
 	}
 	zrox = goreloaded.Cleanslice(zrox)
 	// covert slice string to byte and write thz result file >>>>>>> string.join -or loop
