@@ -5,6 +5,7 @@ import (
 	"os"
 	"strconv"
 	"strings"
+
 	"goreloaded"
 )
 
@@ -16,6 +17,54 @@ func main() {
 	clean := goreloaded.CleanStr(string(data))
 	// nraj3oh slice
 	zrox := goreloaded.StringToSlice(clean)
+	zrox = goreloaded.Cleanslice(zrox)
+	zrox=goreloaded.Cleanslice(zrox)
+
+	var new []string
+	var t string
+	for k := 0; k < len(zrox); k++ {
+		flag, runes := goreloaded.Isponc(zrox[k])
+		if flag {
+			index := goreloaded.Index(zrox[k])
+			if index == 0 && len(zrox[k]) > 1 {
+				zrox[k] = zrox[k][1:]
+				zrox[k-1] += string(runes)
+				goreloaded.Cleanslice(zrox)
+			} else if index == len(zrox[k])-1 && len(zrox[k]) > 1 && zrox[k][index-1] != '.' && zrox[k][index-1] != '?' && zrox[k][index-1] != ',' && zrox[k][index-1] != '!' &&
+				zrox[k][index-1] != ';' && zrox[k][index-1] != ':' {
+				fmt.Println(zrox)
+			} else if index != 0 && index != len(zrox[k])-1 && len(zrox[k]) > 1 {
+				new = append(new, zrox[k][:index])
+				new = append(new, string(zrox[k][index]))
+				new = append(new, zrox[k][index+1:])
+				fmt.Println(new)
+				t += zrox[k][:index]
+				t += string(zrox[k][index])
+				t += " "
+				t += zrox[k][index+1:]
+				new =goreloaded.StringToSlice(t)
+				goreloaded.Cleanslice(new)
+				r :=  new[0]+" "+goreloaded.Capitalize(new[1])
+				fmt.Println(r)
+				fmt.Println(new)
+
+			}else if len(zrox[k]) == 1 {
+				zrox[k] = ""
+				zrox[k-1] += string(runes)
+				fmt.Println("im here")
+
+			}
+
+		}
+	}
+
+
+
+
+
+
+
+
 	// hna nbdaw n9ado lhalat li 3ndna >>>> ATOI - ITOA -TOUpper - Tolower -ParseINT
 	for i := 0; i < len(zrox); i++ {
 		if i != 0 && zrox[i] == "(cap)" {
@@ -91,88 +140,7 @@ func main() {
 			zrox[i+1] = ""
 			goreloaded.Cleanslice(zrox)
 		}
-		/* for l := 0 ; l < len(zrox[i]);l++{
-					if i>0&& zrox[i][l] != 0&&zrox[i][l]== '.' || zrox[i][l]==','||zrox[i][l]== '!' || zrox[i][l]=='?'||zrox[i][l] == ':'||zrox[i][l]==';'{
-		             zrox[i-1] += string(zrox[i][l])
-					 if i <=len(zrox)&&zrox[i] != zrox[i-1]{
-						 zrox[i] = zrox[i][0:]
-						for k := 0 ; k <len(zrox[i]);k++{
-							if zrox[i][k]=='.'{
-								zrox[i] = string(zrox[i][0])
-
-							}
-						} */
 	}
-	// for i := 0; i < len(zrox); i++ {
-	// 	for j := 0; j < len(zrox[i]); j++ {
-	// 		if  j +1 < len(zrox[i])&&i-1 >= 0 && zrox[i][j] == '.' && zrox[i][j+1] != zrox[i][j] {
-	// 			zrox[i-1] += string(zrox[i][j])
-	// 			zrox[i] = zrox[i][j+1:]
-	// 			goreloaded.Cleanslice(zrox)
-
-	// 		} else if j+1 < len(zrox[i]) && zrox[i][j+1] == '.' {
-	// 			zrox[i-1] += string(zrox[i][j+1])
-	// 			goreloaded.Cleanslice(zrox)
-	// 		} /* else if i-1 >= 0 && i == 0 && zrox[i][j] == '.' {
-	// 			zrox[i-1] += " "
-	// 		} */
-	// 	}
-	// }
-/* 	for i := 1; i < len(zrox); i++ { // start from 1 to safely access zrox[i-1]
-    j := 0
-    for j < len(zrox[i]) {
-        // Check for single punctuation (not part of a group)
-        if strings.ContainsRune(".,!?:;", rune(zrox[i][j])) {
-            // Move punctuation to previous word
-            zrox[i-1] += string(zrox[i][j])
-            // Remove from current word
-            zrox[i] = append(zrox[i][:j], zrox[i][j+1:]...)
-            goreloaded.Cleanslice(zrox)
-            // Don't increment j, as the slice has shifted
-        } else {
-            j++
-        }
-    }
-} */
-if goreloaded.Isponc(zrox){
-	num := goreloaded.Indexponc(zrox)
-	fmt.Println(num)
-	for i := num; i < len(zrox); i++ {
-	for j := 0; j < len(zrox[i]); j++ {
-		if  j +1 < len(zrox[i])&&i-1 >= 0 && zrox[i][j] == '.' && zrox[i][j+1] != zrox[i][j] {
-			zrox[i-1] += string(zrox[i][j])
-		 			zrox[i] = zrox[i][j+1:]
-				goreloaded.Cleanslice(zrox)
-
-			} else if j+1 < len(zrox[i]) && zrox[i][j+1] == '.' {
-				zrox[i-1] += string(zrox[i][j+1])
-				goreloaded.Cleanslice(zrox)
-
-}
-	}
-	
-}
-
-goreloaded.Removes(zrox)
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 	// covert slice string to byte and write the result file >>>>>>> string.join -or loop
 	/* combinedString := strings.Join(zrox, " ")
@@ -196,5 +164,4 @@ goreloaded.Removes(zrox)
 			fmt.Println("error", err)
 		}
 	}
-}
 }
