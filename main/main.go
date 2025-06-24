@@ -20,14 +20,33 @@ func main() {
 	zrox = goreloaded.Cleanslice(zrox)
 	zrox=goreloaded.Cleanslice(zrox)
 
-	var new []string
-	var t string
-	for k := 0; k < len(zrox); k++ {
-		flag, runes := goreloaded.Isponc(zrox[k])
+
+for l := 0 ; l < len(zrox) ;l++{
+	for k := 0 ; k < len(zrox[l]);k++{
+		if goreloaded.Isponc(string(zrox[l][k])){
+			index := goreloaded.Index(string(zrox[l][k]))
+			if index == 0 && goreloaded.Runponc(rune(zrox[l][k+1]))==true{
+				
+
+			}
+
+		}
+	}
+}
+	
+
+	/* var new []string
+	var t string */
+	/* for k := 0; k < len(zrox); k++ {
+		flag, runes:= goreloaded.Isponc(zrox[k])
 		if flag {
 			index := goreloaded.Index(zrox[k])
-			if index == 0 && len(zrox[k]) > 1 {
-				zrox[k] = zrox[k][1:]
+			if index == 0 && len(zrox[k]) == 1 {
+				zrox[k]+= string(runes)+" " 
+				
+			}
+		}
+			 */	/* zrox[k] = zrox[k][1:]
 				zrox[k-1] += string(runes)
 				goreloaded.Cleanslice(zrox)
 			} else if index == len(zrox[k])-1 && len(zrox[k]) > 1 && zrox[k][index-1] != '.' && zrox[k][index-1] != '?' && zrox[k][index-1] != ',' && zrox[k][index-1] != '!' &&
@@ -57,10 +76,13 @@ func main() {
 
 		}
 	}
+ */
+
+/* for l :=0 ;l < len(zrox);l++{
 
 
-
-
+}
+ */
 
 
 

@@ -1,14 +1,24 @@
 package goreloaded
 import "strings"
 
-func Isponc(s string) (bool,rune) {
+func Isponc(s string) (bool) {
 	for i := 0; i < len(s); i++ {
 		if s[i] == '.' || s[i] == '?' || s[i] == '!' || s[i] == ';' || s[i] == ':' || s[i] == ',' {
-			return true , rune(s[i])
+			return true 
 		}
 	}
-	return false , rune(s[0])
+	return false 
 }
+
+func Runponc(s rune)bool{
+
+if s== '.' || s == '?' || s == '!' || s == ';' || s == ':' || s == ',' {
+			return true 
+
+}
+return false 
+}
+
 
 func Index(s string) int {
 	index := 0
