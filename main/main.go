@@ -10,43 +10,83 @@ import (
 )
 
 func main() {
-	// n9raw file hna >>> os READ FILE
+
 	filenames := os.Args
 	data, err := os.ReadFile(filenames[1])
-	// nhaydo les espace >>> clean str
+	
 	clean := goreloaded.CleanStr(string(data))
-	// nraj3oh slice
-	zrox := goreloaded.StringToSlice(clean)
-	zrox = goreloaded.Cleanslice(zrox)
-	zrox=goreloaded.Cleanslice(zrox)
+	
+	fmt.Println("str:",clean)
+	runes := []rune(clean)
+var result []rune
 
-
-for l := 0 ; l < len(zrox) ;l++{
-	for k := 0 ; k < len(zrox[l]);k++{
-		if goreloaded.Isponc(string(zrox[l][k])){
-			index := goreloaded.Index(string(zrox[l][k]))
-			if index == 0 && goreloaded.Runponc(rune(zrox[l][k+1]))==true{
-				
-
-			}
-
+for i := 0; i < len(runes); {
+	r := runes[i]
+	
+	if goreloaded.Runponc(r) {
+		
+		start := i
+		for i+1 < len(runes) && goreloaded.Runponc(runes[i+1]) {
+			i++
 		}
+		
+		if len(result) > 0 && result[len(result)-1] == ' ' {
+			result = result[:len(result)-1]
+		}
+		
+		for j := start; j <= i; j++ {
+			result = append(result, runes[j])
+		}
+		
+		if i+1 < len(runes) && runes[i+1] != ' ' && !goreloaded.Runponc(runes[i+1]) {
+			result = append(result, ' ')
+		}
+		i++
+	} else {
+		result = append(result, r)
+		i++
 	}
 }
+
+clean = string(result)
+fmt.Println("str2:", clean)
+
+zrox := goreloaded.StringToSlice(clean)
+fmt.Println("str3:", zrox)
+
+zrox = goreloaded.Cleanslice(zrox)
+
+
+/* for l := 0; l < len(zrox); l++ {
+	if l > 0 && strings.ContainsAny(zrox[l], ".,!?;:") {
+		zrox[l-1] += zrox[l]
+		zrox[l] = ""
+	}
+}
+
+
+var final []string
+for _, w := range zrox {
+	if w != "" {
+		final = append(final, w)
+	}
+} */
 	
 
-	/* var new []string
-	var t string */
-	/* for k := 0; k < len(zrox); k++ {
+	
+/* 
+	var new []string
+	var t string 
+	 for k := 0; k < len(zrox); k++ {
 		flag, runes:= goreloaded.Isponc(zrox[k])
 		if flag {
 			index := goreloaded.Index(zrox[k])
 			if index == 0 && len(zrox[k]) == 1 {
 				zrox[k]+= string(runes)+" " 
 				
-			}
-		}
-			 */	/* zrox[k] = zrox[k][1:]
+			
+		
+			 zrox[k] = zrox[k][1:]
 				zrox[k-1] += string(runes)
 				goreloaded.Cleanslice(zrox)
 			} else if index == len(zrox[k])-1 && len(zrox[k]) > 1 && zrox[k][index-1] != '.' && zrox[k][index-1] != '?' && zrox[k][index-1] != ',' && zrox[k][index-1] != '!' &&
@@ -76,7 +116,7 @@ for l := 0 ; l < len(zrox) ;l++{
 
 		}
 	}
- */
+  */
 
 /* for l :=0 ;l < len(zrox);l++{
 
