@@ -240,9 +240,9 @@ func FixSingleQuotes(s string) string {
 func Gorseloaded(clean string) []string {
 	var zrox []string
 	zrox = StringToSlice(clean)
-	for i := 0; i < 2; i++ {
+	
 	zrox = processTags(zrox)
-	}
+	
 	clean = strings.Join(zrox, " ")
 	clean = normalizePunctuation(clean)
 	clean = FixSingleQuotes(clean)
@@ -273,7 +273,7 @@ func vowels(t []string) []string {
 
 		} else if i+1 < len(t) && len(t[i]) > 1 && isvoules(t[i+1]) {
 			for j := 0; j < len(t[i]); j++ {
-				if j+1 < len(t[i]) && !unicode.IsLetter(rune(t[i][j])) && (t[i][j+1] == 'a' || t[i][j+1] == 'A') {
+				if j+1 < len(t[i]) && len(t[i])==2&&!unicode.IsLetter(rune(t[i][j])) && !unicode.IsDigit(rune(t[i][j]))&&(t[i][j+1] == 'a' || t[i][j+1] == 'A') {
 					t[i] += "n"
 
 					break
