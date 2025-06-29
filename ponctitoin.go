@@ -132,7 +132,7 @@ func processTags(zrox []string) []string {
 				}
 
 				for k := 1; k <= end; k++ {
-					if i-k >= 0 && isWord(zrox[i-k]) { 
+					if i-k >= 0 && isWord(zrox[i-k]) {
 						zrox[i-k] = strings.ToUpper(zrox[i-k])
 					}
 				}
@@ -179,20 +179,23 @@ func isWord(s string) bool {
 	return false
 }
 
+func IsWordChar(r rune) bool {
+	if unicode.IsLetter(r) || unicode.IsDigit(r){
+		return true
+	}
+	return false
+}
+
 func FixSingleQuotes(s string) string {
 	var result []rune
 	runes := []rune(s)
 	i := 0
 
-	isWordChar := func(r rune) bool {
-		return unicode.IsLetter(r) || unicode.IsDigit(r)
-	}
-
 	for i < len(runes) {
 		if runes[i] == '\'' {
-			prevIsWord := i > 0 && isWordChar(runes[i-1])
-			nextIsWord := i+1 < len(runes) && isWordChar(runes[i+1])
-			if prevIsWord && nextIsWord {
+			befor := i > 0 && IsWordChar(runes[i-1])
+			next := i+1 < len(runes) && IsWordChar(runes[i+1])
+			if befor && next {
 				result = append(result, '\'')
 				i++
 				continue
@@ -200,9 +203,9 @@ func FixSingleQuotes(s string) string {
 			j := i + 1
 			for j < len(runes) {
 				if runes[j] == '\'' {
-					prevJIsWord := j > 0 && isWordChar(runes[j-1])
-					nextJIsWord := j+1 < len(runes) && isWordChar(runes[j+1])
-					if !(prevJIsWord && nextJIsWord) {
+					befor  := j > 0 && IsWordChar(runes[j-1])
+					next := j+1 < len(runes) && IsWordChar(runes[j+1])
+					if !(befor && next) {
 						break
 					}
 				}
@@ -236,7 +239,6 @@ func FixSingleQuotes(s string) string {
 
 func Gorseloaded(clean string) []string {
 	var zrox []string
-
 	zrox = StringToSlice(clean)
 	zrox = processTags(zrox)
 	clean = strings.Join(zrox, " ")
@@ -269,9 +271,6 @@ func vowels(t []string) []string {
 
 		} else if i+1 < len(t) && len(t[i]) > 1 && isvoules(t[i+1]) {
 			for j := 0; j < len(t[i]); j++ {
-				if j+1 < len(t[i]) && (t[i][j] == 'a' || t[i][j] == 'A') && (t[i][j+1] == 'a' || t[i][j+1] == 'A') {
-					continue
-				}
 				if j+1 < len(t[i]) && !unicode.IsLetter(rune(t[i][j])) && (t[i][j+1] == 'a' || t[i][j+1] == 'A') {
 					t[i] += "n"
 
