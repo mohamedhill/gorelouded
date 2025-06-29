@@ -3,7 +3,7 @@ package main
 import (
 	"fmt"
 	"os"
-
+	"strings"
 	"goreloaded"
 )
 
@@ -13,20 +13,20 @@ func main() {
 		fmt.Println("program inputfile:",filenames[1],"||", "outputfile: ??")
 		return
 	}
-	if !goreloaded.ProtectedFile(filenames[0], filenames[1]) {
-		fmt.Println("This program only works with 'sample.txt' and 'result.txt'not:", filenames[1:])
-		return
+	if !strings.HasSuffix(os.Args[1], ".txt") || !strings.HasSuffix(os.Args[2], ".txt") {
+        fmt.Println("The input or output file must have a .txt extension.",filenames[1:])
+        return
 	}
 	data, err := os.ReadFile(filenames[1])
 	if err != nil {
-		fmt.Println("program can't read  input file>>:", err)
+		fmt.Println("Error: cannot read input file:", err)
 		return
 	}
 	clean := goreloaded.CleanStr(string(data))
 	zrox := goreloaded.Gorseloaded(clean)
 	err = goreloaded.WriteOutput(filenames[2], zrox)
 	if err != nil {
-		fmt.Println("program can't write output file :", err)
+		fmt.Println("Error: cannot write the output file:", err)
 		return
 	}
 }
