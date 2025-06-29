@@ -240,7 +240,9 @@ func FixSingleQuotes(s string) string {
 func Gorseloaded(clean string) []string {
 	var zrox []string
 	zrox = StringToSlice(clean)
+	for i := 0; i < 2; i++ {
 	zrox = processTags(zrox)
+	}
 	clean = strings.Join(zrox, " ")
 	clean = normalizePunctuation(clean)
 	clean = FixSingleQuotes(clean)
@@ -248,7 +250,7 @@ func Gorseloaded(clean string) []string {
 	zrox = StringToSlice(clean)
 	zrox = Cleanslice(zrox)
 	zrox = vowels(zrox)
-
+	
 	return zrox
 }
 
