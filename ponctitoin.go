@@ -132,7 +132,7 @@ func processTags(zrox []string) []string {
 				}
 
 				for k := 1; k <= end; k++ {
-					if i-k >= 0 && isWord(zrox[i-k]) { // Check if it's a word
+					if i-k >= 0 && isWord(zrox[i-k]) { 
 						zrox[i-k] = strings.ToUpper(zrox[i-k])
 					}
 				}
@@ -241,14 +241,11 @@ func Gorseloaded(clean string) []string {
 	zrox = processTags(zrox)
 	clean = strings.Join(zrox, " ")
 	clean = normalizePunctuation(clean)
-	fmt.Println("cleaned:", clean)
 	clean = FixSingleQuotes(clean)
 	clean = CleanStr(clean)
 	zrox = StringToSlice(clean)
-	fmt.Println("zrox1:", zrox)
 	zrox = Cleanslice(zrox)
 	zrox = vowels(zrox)
-	fmt.Println(zrox)
 
 	return zrox
 }
@@ -268,18 +265,16 @@ func vowels(t []string) []string {
 	for i := 0; i < len(t); i++ {
 		if i+1 < len(t) && t[i] == "a" && isvoules(t[i+1]) || t[i] == "A" && isvoules(t[i+1]) {
 			t[i] += "n"
-			fmt.Println("im here1")
 			continue
 
 		} else if i+1 < len(t) && len(t[i]) > 1 && isvoules(t[i+1]) {
 			for j := 0; j < len(t[i]); j++ {
 				if j+1 < len(t[i]) && (t[i][j] == 'a' || t[i][j] == 'A') && (t[i][j+1] == 'a' || t[i][j+1] == 'A') {
-					fmt.Println("im here2")
 					continue
 				}
 				if j+1 < len(t[i]) && !unicode.IsLetter(rune(t[i][j])) && (t[i][j+1] == 'a' || t[i][j+1] == 'A') {
 					t[i] += "n"
-					fmt.Println("im here")
+
 					break
 				}
 			}
