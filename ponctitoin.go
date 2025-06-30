@@ -180,7 +180,7 @@ func isWord(s string) bool {
 }
 
 func IsWordChar(r rune) bool {
-	if unicode.IsLetter(r) || unicode.IsDigit(r){
+	if unicode.IsLetter(r) || unicode.IsDigit(r) {
 		return true
 	}
 	return false
@@ -203,7 +203,7 @@ func FixSingleQuotes(s string) string {
 			j := i + 1
 			for j < len(runes) {
 				if runes[j] == '\'' {
-					befor  := j > 0 && IsWordChar(runes[j-1])
+					befor := j > 0 && IsWordChar(runes[j-1])
 					next := j+1 < len(runes) && IsWordChar(runes[j+1])
 					if !(befor && next) {
 						break
@@ -239,19 +239,29 @@ func FixSingleQuotes(s string) string {
 
 func Gorseloaded(clean string) []string {
 	var zrox []string
-	zrox = StringToSlice(clean)
-	
-	zrox = processTags(zrox)
-	
-	clean = strings.Join(zrox, " ")
+	clean = Handllines(clean)
+	fmt.Println("clean:", clean)
 	clean = normalizePunctuation(clean)
+	fmt.Println("clean after normalize:", clean)
 	clean = FixSingleQuotes(clean)
-	clean = CleanStr(clean)
+	fmt.Println("clean after FixSingleQuotes:", clean)
+	fmt.Println("clean after CleanStr:", clean)
 	zrox = StringToSlice(clean)
 	zrox = Cleanslice(zrox)
 	zrox = vowels(zrox)
-	
+
 	return zrox
+}
+
+func Handllines(s string) string {
+	lines := strings.Split(s, "\n")
+	var result []string
+	for _, line := range lines {
+		words := strings.Split(line, " ")
+		words = processTags(words)
+		result = append(result, strings.Join(words, " "))
+	}
+	return strings.Join(result, "\n")
 }
 
 func isvoules(s string) bool {
@@ -271,7 +281,7 @@ func vowels(t []string) []string {
 			t[i] += "n"
 			continue
 
-		} 
+		}
 	}
 	return t
 }

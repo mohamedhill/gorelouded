@@ -18,12 +18,16 @@ func main() {
 		fmt.Println("The input or output file must have a .txt extension.", filenames[1:])
 		return
 	}
+	if os.Args[2]  == ".txt" || os.Args[1] == ".txt" {
+		fmt.Println("The input file cannot be named .txt, please choose another name.")
+		return
+	}
 	data, err := os.ReadFile(filenames[1])
 	if err != nil {
 		fmt.Println("Error: cannot read input file:", err)
 		return
 	}
-	clean := goreloaded.CleanStr(string(data))
+	clean := string(data) 
 	zrox := goreloaded.Gorseloaded(clean)
 	err = goreloaded.WriteOutput(filenames[2], zrox)
 	if err != nil {
