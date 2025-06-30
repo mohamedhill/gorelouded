@@ -51,6 +51,20 @@ func normalizePunctuation(input string) string {
 
 func processTags(zrox []string) []string {
 	for i := 0; i < len(zrox); i++ {
+		if i == 0 {
+			switch zrox[i] {
+			case "(up)", "(cap)", "(low)", "(hex)", "(bin)":
+				zrox[i] = ""
+				zrox = Cleanslice(zrox)
+
+			case "(up,", "(cap,", "(low,", "(hex,", "(bin,":
+				if i+1 < len(zrox) {
+					zrox[i] = ""
+					zrox[i+1] = ""
+					zrox = Cleanslice(zrox)
+				}
+			}
+		}
 		switch zrox[i] {
 		case "(cap)":
 			if i != 0 {
@@ -141,21 +155,9 @@ func processTags(zrox []string) []string {
 				zrox = Cleanslice(zrox)
 			}
 
-			if i == 0 {
-				switch zrox[i] {
-				case "(up)", "(cap)", "(low)", "(hex)", "(bin)":
-					zrox[i] = ""
-					zrox = Cleanslice(zrox)
-				case "(up,", "(cap,", "(low,", "(hex,", "(bin,":
-					if i+1 < len(zrox) {
-						zrox[i] = ""
-						zrox[i+1] = ""
-						zrox = Cleanslice(zrox)
-					}
-				}
-			}
 		}
 	}
+	fmt.Println("zrox:", zrox)
 	return zrox
 }
 
@@ -302,13 +304,16 @@ func Cleanslice(s []string) []string {
 }
 
 func Capitalize(s string) string {
-	capit := ""
-	for i := 0; i < len(s); i++ {
-		if i == 0 {
-			capit += strings.ToUpper(string(s[i]))
-		} else {
-			capit += strings.ToLower(string(s[i]))
+	runes := []rune(s)
+	found := false
+
+	for i, r := range runes {
+		if !found && unicode.IsLetter(r) {
+			runes[i] = unicode.ToUpper(r)
+			found = true
+		} else if found {
+			runes[i] = unicode.ToLower(r)
 		}
 	}
-	return capit
+	return string(runes)
 }
