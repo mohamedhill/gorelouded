@@ -240,6 +240,7 @@ func FixSingleQuotes(s string) string {
 				result = append(result, '\'')
 				result = append(result, trimmed...)
 				result = append(result, '\'')
+				result = append(result, ' ')
 				i = j + 1
 			} else {
 				result = append(result, '\'')
