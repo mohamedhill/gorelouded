@@ -45,7 +45,6 @@ func normalizePunctuation(input string) string {
 			i++
 		}
 	}
-
 	return string(result)
 }
 
@@ -56,12 +55,15 @@ func processTags(zrox []string) []string {
 			case "(up)", "(cap)", "(low)", "(hex)", "(bin)":
 				zrox[i] = ""
 				zrox = Cleanslice(zrox)
-
+				i--
+				continue
 			case "(up,", "(cap,", "(low,", "(hex,", "(bin,":
 				if i+1 < len(zrox) {
 					zrox[i] = ""
 					zrox[i+1] = ""
 					zrox = Cleanslice(zrox)
+					i--
+					continue
 				}
 			}
 		}
@@ -71,18 +73,24 @@ func processTags(zrox []string) []string {
 				zrox[i-1] = Capitalize(zrox[i-1])
 				zrox[i] = ""
 				zrox = Cleanslice(zrox)
+				i--
+				continue
 			}
 		case "(up)":
 			if i != 0 {
 				zrox[i-1] = strings.ToUpper(zrox[i-1])
 				zrox[i] = ""
 				zrox = Cleanslice(zrox)
+				i--
+				continue
 			}
 		case "(low)":
 			if i != 0 {
 				zrox[i-1] = strings.ToLower(zrox[i-1])
 				zrox[i] = ""
 				zrox = Cleanslice(zrox)
+				i--
+				continue
 			}
 		case "(hex)":
 			if i != 0 {
@@ -122,6 +130,8 @@ func processTags(zrox []string) []string {
 				zrox[i] = ""
 				zrox[i+1] = ""
 				zrox = Cleanslice(zrox)
+				i--
+				continue
 			}
 		case "(low,":
 			if i != 0 && i+1 < len(zrox) {
@@ -137,6 +147,8 @@ func processTags(zrox []string) []string {
 				zrox[i] = ""
 				zrox[i+1] = ""
 				zrox = Cleanslice(zrox)
+				i--
+				continue
 			}
 		case "(up,":
 			if i != 0 && i+1 < len(zrox) {
@@ -153,6 +165,8 @@ func processTags(zrox []string) []string {
 				zrox[i] = ""
 				zrox[i+1] = ""
 				zrox = Cleanslice(zrox)
+				i--
+				continue
 			}
 
 		}
