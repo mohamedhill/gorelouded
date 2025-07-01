@@ -157,7 +157,7 @@ func processTags(zrox []string) []string {
 
 		}
 	}
-	fmt.Println("zrox:", zrox)
+	
 	return zrox
 }
 
@@ -242,12 +242,8 @@ func FixSingleQuotes(s string) string {
 func Gorseloaded(clean string) []string {
 	var zrox []string
 	clean = Handllines(clean)
-	fmt.Println("clean:", clean)
 	clean = normalizePunctuation(clean)
-	fmt.Println("clean after normalize:", clean)
 	clean = FixSingleQuotes(clean)
-	fmt.Println("clean after FixSingleQuotes:", clean)
-	fmt.Println("clean after CleanStr:", clean)
 	zrox = StringToSlice(clean)
 	zrox = Cleanslice(zrox)
 	zrox = vowels(zrox)
