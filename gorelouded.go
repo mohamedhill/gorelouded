@@ -23,23 +23,21 @@ func normalizePunctuation(input string) string {
 		r := runes[i]
 
 		if Runponc(r) {
+
+			for len(result) > 0 && result[len(result)-1] == ' ' {
+				result = result[:len(result)-1]
+			}
+
 			start := i
 			for i+1 < len(runes) && Runponc(runes[i+1]) {
 				i++
 			}
+			result = append(result, runes[start:i+1]...)
+			i++
 
-			if len(result) > 0 && result[len(result)-1] == ' ' {
-				result = result[:len(result)-1]
-			}
-
-			for j := start; j <= i; j++ {
-				result = append(result, runes[j])
-			}
-
-			if i+1 < len(runes) && runes[i+1] != ' ' && !Runponc(runes[i+1]) {
+			if i < len(runes) {
 				result = append(result, ' ')
 			}
-			i++
 		} else {
 			result = append(result, r)
 			i++
@@ -58,7 +56,7 @@ func processTags(zrox []string) []string {
 				i--
 				continue
 			case "(up,", "(cap,", "(low,", "(hex,", "(bin,":
-				if i+1 < len(zrox) {
+				if i+1 < len(zrox) && len(zrox[i+1]) > 1 {
 					zrox[i] = ""
 					zrox[i+1] = ""
 					zrox = Cleanslice(zrox)
@@ -117,10 +115,12 @@ func processTags(zrox []string) []string {
 				}
 			}
 		case "(cap,":
-			if i != 0 && i+1 < len(zrox) {
+			if i != 0 && i+1 < len(zrox) && len(zrox[i+1]) > 1 {
 				end, err := strconv.Atoi(zrox[i+1][:len(zrox[i+1])-1])
 				if err != nil {
+					
 					continue
+					
 				}
 				for k := 1; k <= end; k++ {
 					if i-k >= 0 {
@@ -132,9 +132,12 @@ func processTags(zrox []string) []string {
 				zrox = Cleanslice(zrox)
 				i--
 				continue
+			}else{
+				fmt.Println("Error: (cap,) tag requires a number to specify how many words to capitalize.")
+				continue
 			}
 		case "(low,":
-			if i != 0 && i+1 < len(zrox) {
+			if i != 0 && i+1 < len(zrox) && len(zrox[i+1]) > 1 {
 				end, err := strconv.Atoi(zrox[i+1][:len(zrox[i+1])-1])
 				if err != nil {
 					continue
@@ -149,9 +152,12 @@ func processTags(zrox []string) []string {
 				zrox = Cleanslice(zrox)
 				i--
 				continue
+			}else{
+				fmt.Println("Error: (low,) tag requires a number to specify how many words to lowercase.")
+				continue
 			}
 		case "(up,":
-			if i != 0 && i+1 < len(zrox) {
+			if i != 0 && i+1 < len(zrox) && len(zrox[i+1]) > 1 {
 				end, err := strconv.Atoi(zrox[i+1][:len(zrox[i+1])-1])
 				if err != nil {
 					continue
@@ -167,11 +173,14 @@ func processTags(zrox []string) []string {
 				zrox = Cleanslice(zrox)
 				i--
 				continue
+			}else {
+				fmt.Println("Error: (up,) tag requires a number to specify how many words to uppercase.")
+				continue
 			}
 
 		}
 	}
-	
+
 	return zrox
 }
 
@@ -290,10 +299,9 @@ func isvoules(s string) bool {
 
 func vowels(t []string) []string {
 	for i := 0; i < len(t); i++ {
-		if i+1 < len(t) && t[i] == "a" && isvoules(t[i+1]) || t[i] == "A" && isvoules(t[i+1]) {
+		if i+1 < len(t) && ((t[i] == "a" && isvoules(t[i+1])) || (t[i] == "A" && isvoules(t[i+1]))) {
 			t[i] += "n"
 			continue
-
 		}
 	}
 	return t
