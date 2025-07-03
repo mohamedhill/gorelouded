@@ -55,8 +55,19 @@ func processTags(zrox []string) []string {
 				zrox = Cleanslice(zrox)
 				i--
 				continue
-			case "(up,", "(cap,", "(low,", "(hex,", "(bin,":
-				if i+1 < len(zrox) && len(zrox[i+1]) > 1 {
+			case "(up,", "(cap,", "(low,":
+
+				if i+1 < len(zrox) {
+					if strings.Count(zrox[i+1], ")") != 1 {
+						continue
+					}
+
+					nb := strings.TrimRight(zrox[i+1], ")")
+					_, err := strconv.Atoi(nb)
+					if err != nil {
+						fmt.Println("error: ", err)
+						continue
+					}
 					zrox[i] = ""
 					zrox[i+1] = ""
 					zrox = Cleanslice(zrox)
@@ -115,6 +126,15 @@ func processTags(zrox []string) []string {
 				}
 			}
 		case "(cap,":
+			if strings.Count(zrox[i+1], ")") != 1 {
+				continue
+			}
+			nb := strings.TrimRight(zrox[i+1], ")")
+			_, err := strconv.Atoi(nb)
+			if err != nil {
+				fmt.Println("error: ", err)
+				continue
+			}
 			if i != 0 && i+1 < len(zrox) && len(zrox[i+1]) > 1 {
 				end, err := strconv.Atoi(zrox[i+1][:len(zrox[i+1])-1])
 				if err != nil {
@@ -135,6 +155,15 @@ func processTags(zrox []string) []string {
 				continue
 			}
 		case "(low,":
+			if strings.Count(zrox[i+1], ")") != 1 {
+				continue
+			}
+			nb := strings.TrimRight(zrox[i+1], ")")
+			_, err := strconv.Atoi(nb)
+			if err != nil {
+				fmt.Println("error: ", err)
+				continue
+			}
 			if i != 0 && i+1 < len(zrox) && len(zrox[i+1]) > 1 {
 				end, err := strconv.Atoi(zrox[i+1][:len(zrox[i+1])-1])
 				if err != nil {
@@ -155,6 +184,15 @@ func processTags(zrox []string) []string {
 				continue
 			}
 		case "(up,":
+			if strings.Count(zrox[i+1], ")") != 1 {
+				continue
+			}
+			nb := strings.TrimRight(zrox[i+1], ")")
+			_, err := strconv.Atoi(nb)
+			if err != nil {
+				fmt.Println("error: ", err)
+				continue
+			}
 			if i != 0 && i+1 < len(zrox) && len(zrox[i+1]) > 1 {
 				end, err := strconv.Atoi(zrox[i+1][:len(zrox[i+1])-1])
 				if err != nil {
@@ -263,7 +301,7 @@ func FixSingleQuotes(s string) string {
 
 func Gorseloaded(clean string) []string {
 	var zrox []string
-	
+
 	clean = Handllines(clean)
 	clean = normalizePunctuation(clean)
 	clean = FixSingleQuotes(clean)
