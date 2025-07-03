@@ -126,6 +126,9 @@ func processTags(zrox []string) []string {
 				}
 			}
 		case "(cap,":
+			if i+1 >= len(zrox) {
+				continue
+			}
 			if strings.Count(zrox[i+1], ")") != 1 {
 				continue
 			}
@@ -155,6 +158,9 @@ func processTags(zrox []string) []string {
 				continue
 			}
 		case "(low,":
+			if i+1 >= len(zrox) {
+				continue
+			}
 			if strings.Count(zrox[i+1], ")") != 1 {
 				continue
 			}
@@ -184,9 +190,16 @@ func processTags(zrox []string) []string {
 				continue
 			}
 		case "(up,":
+			if i+1 >= len(zrox) {
+				continue
+			}
 			if strings.Count(zrox[i+1], ")") != 1 {
 				continue
 			}
+			if len(zrox[i+1]) < 2 { 
+						continue
+					}
+
 			nb := strings.TrimRight(zrox[i+1], ")")
 			_, err := strconv.Atoi(nb)
 			if err != nil {
@@ -255,6 +268,7 @@ func FixSingleQuotes(s string) string {
 	for i < len(runes) {
 		if runes[i] == '\'' {
 			befor := i > 0 && IsWordChar(runes[i-1])
+			
 			next := i+1 < len(runes) && IsWordChar(runes[i+1])
 			if befor && next {
 				result = append(result, '\'')
@@ -265,6 +279,9 @@ func FixSingleQuotes(s string) string {
 			for j < len(runes) {
 				if runes[j] == '\'' {
 					befor := j > 0 && IsWordChar(runes[j-1])
+					if j+1 >= len(runes) { 
+						break
+					}
 					next := j+1 < len(runes) && IsWordChar(runes[j+1])
 					if !(befor && next) {
 						break
@@ -316,7 +333,7 @@ func Handllines(s string) string {
 	lines := strings.Split(s, "\n")
 	var result []string
 	for _, line := range lines {
-		line = normalizeSpaces(line) // Normalize spaces in each line
+		line = normalizeSpaces(line)
 		words := strings.Split(line, " ")
 		words = processTags(words)
 		result = append(result, strings.Join(words, " "))
