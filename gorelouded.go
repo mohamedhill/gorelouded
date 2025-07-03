@@ -118,9 +118,7 @@ func processTags(zrox []string) []string {
 			if i != 0 && i+1 < len(zrox) && len(zrox[i+1]) > 1 {
 				end, err := strconv.Atoi(zrox[i+1][:len(zrox[i+1])-1])
 				if err != nil {
-					
 					continue
-					
 				}
 				for k := 1; k <= end; k++ {
 					if i-k >= 0 {
@@ -132,7 +130,7 @@ func processTags(zrox []string) []string {
 				zrox = Cleanslice(zrox)
 				i--
 				continue
-			}else{
+			} else {
 				fmt.Println("Error: (cap,) tag requires a number to specify how many words to capitalize.")
 				continue
 			}
@@ -152,7 +150,7 @@ func processTags(zrox []string) []string {
 				zrox = Cleanslice(zrox)
 				i--
 				continue
-			}else{
+			} else {
 				fmt.Println("Error: (low,) tag requires a number to specify how many words to lowercase.")
 				continue
 			}
@@ -173,7 +171,7 @@ func processTags(zrox []string) []string {
 				zrox = Cleanslice(zrox)
 				i--
 				continue
-			}else {
+			} else {
 				fmt.Println("Error: (up,) tag requires a number to specify how many words to uppercase.")
 				continue
 			}
@@ -249,7 +247,7 @@ func FixSingleQuotes(s string) string {
 				result = append(result, '\'')
 				result = append(result, trimmed...)
 				result = append(result, '\'')
-				result = append(result, ' ')
+				/* result = append(result, ' ') */
 				i = j + 1
 			} else {
 				result = append(result, '\'')
@@ -265,6 +263,7 @@ func FixSingleQuotes(s string) string {
 
 func Gorseloaded(clean string) []string {
 	var zrox []string
+	
 	clean = Handllines(clean)
 	clean = normalizePunctuation(clean)
 	clean = FixSingleQuotes(clean)
@@ -279,6 +278,7 @@ func Handllines(s string) string {
 	lines := strings.Split(s, "\n")
 	var result []string
 	for _, line := range lines {
+		line = normalizeSpaces(line) // Normalize spaces in each line
 		words := strings.Split(line, " ")
 		words = processTags(words)
 		result = append(result, strings.Join(words, " "))
@@ -335,4 +335,8 @@ func Capitalize(s string) string {
 		}
 	}
 	return string(runes)
+}
+
+func normalizeSpaces(s string) string {
+	return strings.Join(strings.Fields(s), " ")
 }

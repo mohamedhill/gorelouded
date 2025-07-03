@@ -1,1 +1,1 @@
-(low,   m)
+hello how are you are you fine    (cap       ,             8)
