@@ -5,8 +5,7 @@ import (
 	"os"
 	"strings"
 
-	"goreloaded/textproc" // Replace with the actual module name if different
-)
+	"goreloaded/textproc" 
 
 func main() {
 	if len(os.Args) != 3 {
