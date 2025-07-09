@@ -5,30 +5,34 @@ import (
 	"os"
 	"strings"
 
-	"goreloaded"
+	"goreloaded/textproc" // Replace with the actual module name if different
 )
 
 func main() {
-	filenames := os.Args
-	if len(filenames) != 3 {
-		fmt.Println("invalid input please give two args")
+	if len(os.Args) != 3 {
+		fmt.Println("Invalid input. Please provide exactly two arguments: input.txt output.txt")
 		return
 	}
-	if !strings.HasSuffix(os.Args[1], ".txt") || !strings.HasSuffix(os.Args[2], ".txt") {
-		fmt.Println("The input or output file must have a .txt extension.", filenames[1:])
+
+	inputFile := os.Args[1]
+	outputFile := os.Args[2]
+
+	if !strings.HasSuffix(inputFile, ".txt") || !strings.HasSuffix(outputFile, ".txt") {
+		fmt.Println("Error: Both input and output files must have a .txt extension.")
 		return
 	}
-	
-	data, err := os.ReadFile(filenames[1])
+
+	data, err := os.ReadFile(inputFile)
 	if err != nil {
-		fmt.Println("Error: cannot read input file:", err)
+		fmt.Printf("Error: cannot read input file: %v\n", err)
 		return
 	}
-	clean := string(data) 
-	zrox := goreloaded.Gorseloaded(clean)
-	err = goreloaded.WriteOutput(filenames[2], zrox)
-	if err != nil {
-		fmt.Println("Error: cannot write the output file:", err)
+
+	input := string(data)
+	processed := textproc.Gorseloaded(input)
+
+	if err := textproc.WriteOutput(outputFile, processed); err != nil {
+		fmt.Printf("Error: cannot write output file: %v\n", err)
 		return
 	}
 }
